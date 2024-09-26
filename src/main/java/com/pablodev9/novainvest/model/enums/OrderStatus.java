@@ -6,5 +6,5 @@ import lombok.Getter;
 public enum OrderStatus {
     PENDING,
     COMPLETED,
-    CANCELLED;
+    CANCELLED
 }

@@ -7,5 +7,5 @@ public enum AssetType {
     STOCK,
     COMMODITY,
     INDEX,
-    ETF;
+    ETF
 }

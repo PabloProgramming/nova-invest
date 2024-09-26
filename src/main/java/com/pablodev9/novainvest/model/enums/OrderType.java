@@ -5,5 +5,5 @@ import lombok.Getter;
 @Getter
 public enum OrderType {
     BUY,
-    SELL;
+    SELL
 }

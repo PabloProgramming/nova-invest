@@ -5,5 +5,5 @@ import lombok.Getter;
 @Getter
 public enum InvestmentType {
     BUY,
-    SELL;
+    SELL
 }
