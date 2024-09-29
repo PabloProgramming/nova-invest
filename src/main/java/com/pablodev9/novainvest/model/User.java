@@ -22,15 +22,18 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @NotBlank
+    @NotBlank(message = "Username is required")
     private String userName;
-    @Email
+    @Email(message = "Email should be valid")
     private String email;
-    @Size
+    @Size(min = 8, message = "Password must be at least 8 characters long")
     private String password;
+    @NotBlank(message = "First name is required")
     private String firstName;
+    @NotBlank(message = "Last name is required")
     private String lastName;
     private BigDecimal balance;
+
     @Enumerated(EnumType.STRING)
     private UserRole role;
     private LocalDateTime createdAt;
