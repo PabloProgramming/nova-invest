@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Builder
@@ -19,5 +20,6 @@ public class UserPortfolioDto {
     @Email(message = "Email should be valid")
     private final String email;
     private final BigDecimal balance;
+    private final LocalDateTime updatedAt;
     private final List<PortfolioSummaryDto> portfolioSummaryDtos;
 }

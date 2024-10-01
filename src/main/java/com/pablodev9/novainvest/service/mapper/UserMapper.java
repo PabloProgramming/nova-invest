@@ -44,6 +44,7 @@ public class UserMapper {
                 .userName(user.getUserName())
                 .email(user.getEmail())
                 .balance(user.getBalance())
+                .updatedAt(user.getUpdatedAt())
                 .portfolioSummaryDtos(portfolioMapper.toSummaryDtos(user.getPortfolios()))
                 .build();
     }
