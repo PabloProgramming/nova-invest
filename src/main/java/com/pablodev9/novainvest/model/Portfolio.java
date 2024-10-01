@@ -1,6 +1,5 @@
 package com.pablodev9.novainvest.model;
 
-import com.pablodev9.novainvest.model.enums.TransactionType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,9 +17,8 @@ public class Portfolio {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Enumerated(EnumType.STRING)
-    private TransactionType transactionType;
-    private BigDecimal amount;
+    private String name;
+    private BigDecimal totalValue;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -30,6 +28,18 @@ public class Portfolio {
     @OneToMany(mappedBy = "portfolio", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Investment> investments;
 
+    public BigDecimal calculateTotalValue() {
+        BigDecimal totalValue = BigDecimal.ZERO;
+
+        for (Investment investment : investments) {
+            if (investment != null) {
+                BigDecimal amountInvested = (investment.getAmountInvested() != null ? investment.getAmountInvested() : BigDecimal.ZERO);
+                BigDecimal investmentValue = investment.calculateProfitOrLoss();
+                totalValue = totalValue.add(amountInvested).add(investmentValue);
+            }
+        }
+        return totalValue;
+    }
 
     @PrePersist
     protected void onCreate() {

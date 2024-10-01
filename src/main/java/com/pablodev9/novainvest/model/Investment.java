@@ -19,7 +19,9 @@ public class Investment {
     private Long id;
     private BigDecimal amountInvested;
     private int quantity;
-    private BigDecimal buyPrice;
+    private BigDecimal purchasePrice;
+    private BigDecimal currentPrice;
+    private BigDecimal transactionFees;
     private LocalDateTime investmentDate;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -32,6 +34,13 @@ public class Investment {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "asset_id")
     private Asset asset;
+
+    // Calculate profit or loss
+    public BigDecimal calculateProfitOrLoss() {
+        BigDecimal initialInvestmentCost = purchasePrice.multiply(BigDecimal.valueOf(quantity)).add(transactionFees);
+        BigDecimal currentValue = currentPrice.multiply(BigDecimal.valueOf(quantity));
+        return currentValue.subtract(initialInvestmentCost);
+    }
 
     @PrePersist
     protected void onCreate() {
