@@ -26,4 +26,9 @@ public class UserController {
         return ResponseEntity.ok(userService.getUserPortfolio(userId));
     }
 
+    @PutMapping("/me")
+    private ResponseEntity<UserResponseDto> updateUser(@RequestBody final UserDto userDto) {
+        return ResponseEntity.ok(userService.updateUser(userDto));
+    }
+
 }

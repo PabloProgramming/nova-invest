@@ -34,6 +34,17 @@ public class UserService {
         return userMapper.toResponseDto(user);
     }
 
+    public UserResponseDto updateUser(final UserDto userDto) {
+        User user = findUserById(userDto.getUserId());
+        user.setUserName(userDto.getUserName());
+        user.setEmail(userDto.getEmail());
+        user.setFirstName(userDto.getFirstName());
+        user.setLastName(userDto.getLastName());
+        user.setPhoneNumber(userDto.getPhoneNumber());
+        final User updatedUser = userRepository.save(user);
+        return userMapper.entityToResponseDto(updatedUser);
+    }
+
     @SneakyThrows
     public User findUserById(final Long userId) {
         final Optional<User> optionalUser = userRepository.findById(userId);
