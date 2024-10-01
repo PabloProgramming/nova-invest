@@ -25,7 +25,7 @@ public class Order {
     private BigDecimal price;
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
-    private LocalDateTime orderDate; // Immutable, when the order was placed
+    private LocalDateTime orderDate;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -40,11 +40,11 @@ public class Order {
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
-        this.orderDate = LocalDateTime.now(); // Set the order date only at creation
+        this.orderDate = LocalDateTime.now();
     }
 
     @PreUpdate
     protected void onUpdate() {
-        this.updatedAt = LocalDateTime.now(); // Only the updatedAt field should change on update
+        this.updatedAt = LocalDateTime.now();
     }
 }
