@@ -14,6 +14,7 @@ import java.math.BigDecimal;
 @Getter
 @RequiredArgsConstructor
 public class UserDto {
+    private final Long userId;
     @NotBlank(message = "Username is required")
     private final String userName;
     @Email(message = "Email should be valid")
@@ -24,6 +25,8 @@ public class UserDto {
     private final String firstName;
     @NotBlank(message = "Last name is required")
     private final String lastName;
+    @NotBlank(message = "Phone is required")
+    private final String phoneNumber;
     private final BigDecimal balance;
     private final UserRole role;
 }

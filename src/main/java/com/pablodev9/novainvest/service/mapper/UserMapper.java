@@ -15,12 +15,14 @@ public class UserMapper {
 
     public User requestDtoToEntity(final UserDto userDto) {
         User user = new User();
+        user.setId(userDto.getUserId());
         user.setUserName(userDto.getUserName());
         user.setEmail(userDto.getEmail());
         user.setPassword(userDto.getPassword());
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
         user.setBalance(userDto.getBalance());
+        user.setPhoneNumber(userDto.getPhoneNumber());
         user.setRole(userDto.getRole());
         return user;
     }
@@ -32,6 +34,7 @@ public class UserMapper {
                 .email(user.getEmail())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
+                .phoneNumber(user.getPhoneNumber())
                 .balance(user.getBalance())
                 .role(user.getRole())
                 .createdAt(user.getCreatedAt().toString())

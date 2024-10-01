@@ -32,6 +32,8 @@ public class User {
     private String firstName;
     @NotBlank(message = "Last name is required")
     private String lastName;
+    @NotBlank(message = "Phone is required")
+    private String phoneNumber;
     private BigDecimal balance;
 
     @Enumerated(EnumType.STRING)
