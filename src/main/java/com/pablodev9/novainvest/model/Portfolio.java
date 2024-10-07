@@ -23,10 +23,14 @@ public class Portfolio {
     private LocalDateTime updatedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_nova_id")
-    private User user;
+    @JoinColumn(name = "account_id")
+    private Account account;
     @OneToMany(mappedBy = "portfolio", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Investment> investments;
+    @OneToMany(mappedBy = "portfolio", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Watchlist> watchlists;
+    @OneToMany(mappedBy = "portfolio", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Order> orders;
 
     public BigDecimal calculateTotalValue() {
         BigDecimal totalValue = BigDecimal.ZERO;

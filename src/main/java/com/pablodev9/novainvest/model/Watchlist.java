@@ -26,5 +26,5 @@ public class Watchlist {
     private List<Asset> assets;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_nova_id")
-    private User user;
+    private Portfolio portfolio;
 }
