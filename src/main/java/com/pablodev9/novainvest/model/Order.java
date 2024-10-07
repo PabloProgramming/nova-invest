@@ -2,6 +2,7 @@ package com.pablodev9.novainvest.model;
 
 import com.pablodev9.novainvest.model.enums.OrderStatus;
 import com.pablodev9.novainvest.model.enums.OrderType;
+import com.pablodev9.novainvest.model.enums.PriceType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,13 +26,15 @@ public class Order {
     private BigDecimal price;
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
+    @Enumerated(EnumType.STRING)
+    private PriceType priceType;
     private LocalDateTime orderDate;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_nova_id")
-    private User user;
+    @JoinColumn(name = "portfolio_id")
+    private Portfolio portfolio;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "asset_id")
     private Asset asset;

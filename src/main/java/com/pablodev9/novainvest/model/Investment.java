@@ -35,7 +35,6 @@ public class Investment {
     @JoinColumn(name = "asset_id")
     private Asset asset;
 
-    // Calculate profit or loss
     public BigDecimal calculateProfitOrLoss() {
         BigDecimal initialInvestmentCost = purchasePrice.multiply(BigDecimal.valueOf(quantity)).add(transactionFees);
         BigDecimal currentValue = currentPrice.multiply(BigDecimal.valueOf(quantity));
@@ -46,7 +45,7 @@ public class Investment {
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
-        this.investmentDate = LocalDateTime.now(); // Set transaction time at creation
+        this.investmentDate = LocalDateTime.now();
     }
 
     @PreUpdate

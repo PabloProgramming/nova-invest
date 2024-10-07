@@ -8,8 +8,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import java.math.BigDecimal;
-
 @Builder
 @Getter
 @RequiredArgsConstructor
@@ -27,6 +25,5 @@ public class UserDto {
     private final String lastName;
     @NotBlank(message = "Phone is required")
     private final String phoneNumber;
-    private final BigDecimal balance;
     private final UserRole role;
 }
