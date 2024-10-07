@@ -9,9 +9,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserMapper {
 
-    @Autowired
-    PortfolioMapper portfolioMapper;
-
     public User requestDtoToEntity(final UserDto userDto) {
         User user = new User();
         user.setId(userDto.getUserId());

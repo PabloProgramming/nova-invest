@@ -8,8 +8,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import java.math.BigDecimal;
-
 @Builder
 @Getter
 @RequiredArgsConstructor
