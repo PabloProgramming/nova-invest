@@ -37,7 +37,7 @@ public class Portfolio {
 
         for (Investment investment : investments) {
             if (investment != null) {
-                BigDecimal amountInvested = (investment.getAmountInvested() != null ? investment.getAmountInvested() : BigDecimal.ZERO);
+                BigDecimal amountInvested = (investment.calculateAmountInvested() != null ? investment.calculateAmountInvested() : BigDecimal.ZERO);
                 BigDecimal investmentValue = investment.calculateProfitOrLoss();
                 totalValue = totalValue.add(amountInvested).add(investmentValue);
             }
