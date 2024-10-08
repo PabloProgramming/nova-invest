@@ -21,7 +21,6 @@ public class Investment {
     private BigDecimal purchasePrice;
     private BigDecimal currentPrice;
     private BigDecimal transactionFees;
-    private LocalDateTime investmentDate;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     @Enumerated(EnumType.STRING)
@@ -48,7 +47,6 @@ public class Investment {
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
-        this.investmentDate = LocalDateTime.now();
     }
 
     @PreUpdate

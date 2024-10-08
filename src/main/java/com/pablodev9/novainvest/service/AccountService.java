@@ -3,6 +3,8 @@ package com.pablodev9.novainvest.service;
 import com.pablodev9.novainvest.model.Account;
 import com.pablodev9.novainvest.model.User;
 import com.pablodev9.novainvest.model.dto.AccountPortfolioDto;
+import com.pablodev9.novainvest.model.dto.TransactionDto;
+import com.pablodev9.novainvest.model.enums.TransactionType;
 import com.pablodev9.novainvest.repository.AccountRepository;
 import com.pablodev9.novainvest.service.mapper.AccountMapper;
 import lombok.SneakyThrows;
@@ -44,5 +46,18 @@ public class AccountService {
             return optionalAccount.get();
         }
         throw new Exception();
+    }
+
+    public void updateAccountBalance(final TransactionDto transactionDto) {
+        Account account = findAccountById(transactionDto.getAccountId());
+        final BigDecimal amount = transactionDto.getAmount();
+        if (transactionDto.getTransactionType().equals(TransactionType.WITHDRAWAL)) {
+            if (account.getBalance().compareTo(amount) < 0) {
+                throw new IllegalArgumentException("Insufficient balance");
+            }
+            account.setBalance(account.getBalance().subtract(amount));
+        } else if (transactionDto.getTransactionType().equals(TransactionType.DEPOSIT)) {
+            account.setBalance(account.getBalance().add(amount));
+        }
     }
 }
