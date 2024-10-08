@@ -16,7 +16,7 @@ public class InvestmentMapper {
             InvestmentSummaryDto investmentSummaryDto = InvestmentSummaryDto.builder()
                     .investmentId(investment.getId())
                     .assetName(investment.getAsset().getName())
-                    .amountInvested(investment.getAmountInvested())
+                    .amountInvested(investment.calculateAmountInvested())
                     .currentValue(investment.getCurrentPrice())
                     .profitOrLoss(investment.calculateProfitOrLoss())
                     .build();

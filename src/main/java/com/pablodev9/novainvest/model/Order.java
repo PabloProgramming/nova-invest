@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Table (name = "order_nova")
+@Table(name = "order_nova")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,7 +22,7 @@ public class Order {
     private Long id;
     @Enumerated(EnumType.STRING)
     private OrderType orderType;
-    private BigDecimal quantity;
+    private double quantity;
     private BigDecimal price;
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
@@ -39,6 +39,10 @@ public class Order {
     @JoinColumn(name = "asset_id")
     private Asset asset;
 
+    public BigDecimal calculateAmountInvested() {
+        return price.multiply(BigDecimal.valueOf(quantity));
+    }
+
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
@@ -50,4 +54,6 @@ public class Order {
     protected void onUpdate() {
         this.updatedAt = LocalDateTime.now();
     }
+
 }
+
