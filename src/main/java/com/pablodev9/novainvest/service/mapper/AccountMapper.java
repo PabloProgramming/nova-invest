@@ -15,9 +15,9 @@ public class AccountMapper {
         return AccountPortfolioDto.builder()
                 .id(account.getId())
                 .balance(account.calculateBalance())
-                .equity(account.getEquity())
-                .margin(account.getMargin())
-                .reservedFunds(account.getReservedFunds())
+                .equity(account.calculateEquity())
+                .margin(account.calculateMargin())
+                .reservedFunds(account.calculateReservedFunds())
                 .updatedAt(account.getUpdatedAt().toString())
                 .portfolioSummaryDtos(portfolioMapper.toSummaryDtos(account.getPortfolios()))
                 .build();
