@@ -28,7 +28,6 @@ public class Order {
     private OrderStatus orderStatus;
     @Enumerated(EnumType.STRING)
     private PriceType priceType;
-    private LocalDateTime orderDate;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -47,7 +46,6 @@ public class Order {
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
-        this.orderDate = LocalDateTime.now();
     }
 
     @PreUpdate
