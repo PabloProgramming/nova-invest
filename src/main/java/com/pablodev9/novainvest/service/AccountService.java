@@ -5,19 +5,21 @@ import com.pablodev9.novainvest.model.User;
 import com.pablodev9.novainvest.model.dto.AccountPortfolioDto;
 import com.pablodev9.novainvest.repository.AccountRepository;
 import com.pablodev9.novainvest.service.mapper.AccountMapper;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 @Service
 public class AccountService {
 
     @Autowired
-    AccountRepository accountRepository;
+    private AccountRepository accountRepository;
 
     @Autowired
-    AccountMapper accountMapper;
+    private AccountMapper accountMapper;
 
 
     public void createAccountForUser(User user) {
@@ -28,7 +30,6 @@ public class AccountService {
         account.setMargin(BigDecimal.ZERO);
         account.setReservedFunds(BigDecimal.ZERO);
         account.setCreatedAt(account.getCreatedAt());
-
         accountRepository.save(account);
     }
 
@@ -36,5 +37,12 @@ public class AccountService {
         final Account account = accountRepository.getAccountByUserId(userId);
         return accountMapper.toResponseDto(account);
     }
-
+    @SneakyThrows
+    public Account findAccountById(final Long id) {
+        final Optional<Account> optionalAccount = accountRepository.findById(id);
+        if (optionalAccount.isPresent()) {
+            return optionalAccount.get();
+        }
+        throw new Exception();
+    }
 }
