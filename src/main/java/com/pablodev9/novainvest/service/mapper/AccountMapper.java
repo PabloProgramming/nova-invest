@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 public class AccountMapper {
 
     @Autowired
-    PortfolioMapper portfolioMapper;
+    private PortfolioMapper portfolioMapper;
 
     public AccountPortfolioDto toResponseDto(final Account account) {
         return AccountPortfolioDto.builder()

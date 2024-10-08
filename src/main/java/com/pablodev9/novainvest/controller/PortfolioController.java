@@ -16,7 +16,7 @@ public class PortfolioController {
     @Autowired
     private PortfolioService portfolioService;
 
-    @PostMapping("/{accountId}/portfolios/create")
+    @PostMapping("/portfolios/create")
     private ResponseEntity<PortfolioDto> createPortfolio(@RequestBody final PortfolioDto portfolioDto) {
         return ResponseEntity.ok(portfolioService.createPortfolio(portfolioDto));
     }
