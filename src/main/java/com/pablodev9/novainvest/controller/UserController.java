@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/api/users")
+@RequestMapping("/api/user")
 public class UserController {
 
     @Autowired
@@ -23,7 +23,7 @@ public class UserController {
         return ResponseEntity.ok(userService.registerUser(userDto));
     }
 
-    @PutMapping("/me")
+    @PutMapping("/update")
     private ResponseEntity<UserResponseDto> updateUser(@RequestBody final UserDto userDto) {
         return ResponseEntity.ok(userService.updateUser(userDto));
     }

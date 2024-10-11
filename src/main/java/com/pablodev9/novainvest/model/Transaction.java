@@ -1,6 +1,6 @@
 package com.pablodev9.novainvest.model;
 
-import com.pablodev9.novainvest.model.enums.TransactionType;
+import com.pablodev9.novainvest.model.enums.OperationType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,7 +18,7 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Enumerated(EnumType.STRING)
-    private TransactionType transactionType;
+    private OperationType operationType;
     private BigDecimal amount;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

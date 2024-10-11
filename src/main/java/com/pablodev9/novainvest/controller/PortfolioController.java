@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/api/account")
+@RequestMapping("/api/portfolio")
 public class PortfolioController {
 
     @Autowired
     private PortfolioService portfolioService;
 
-    @PostMapping("/portfolios/create")
+    @PostMapping("/create")
     private ResponseEntity<PortfolioDto> createPortfolio(@RequestBody final PortfolioDto portfolioDto) {
         return ResponseEntity.ok(portfolioService.createPortfolio(portfolioDto));
     }

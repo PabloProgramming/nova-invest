@@ -16,7 +16,7 @@ public class AccountController {
     @Autowired
     private AccountService accountService;
 
-    @GetMapping("/me/{userId}")
+    @GetMapping("/{userId}")
     private ResponseEntity<AccountPortfolioDto> getAccountPortfolios(@PathVariable final Long userId) {
         return ResponseEntity.ok(accountService.getAccountPortfolios(userId));
     }

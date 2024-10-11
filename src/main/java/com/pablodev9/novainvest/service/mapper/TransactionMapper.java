@@ -15,7 +15,7 @@ public class TransactionMapper {
 
     public Transaction requestDtoToEntity(final TransactionDto transactionDto) {
         Transaction transaction = new Transaction();
-        transaction.setTransactionType(transactionDto.getTransactionType());
+        transaction.setOperationType(transactionDto.getOperationType());
         transaction.setAmount(transactionDto.getAmount());
         transaction.setAccount(accountService.findAccountById(transactionDto.getAccountId()));
         return transaction;
@@ -25,7 +25,7 @@ public class TransactionMapper {
     public TransactionResponseDto entityToResponseDto(final Transaction transaction) {
         return TransactionResponseDto.builder()
                 .transactionId(transaction.getId())
-                .transactionType(transaction.getTransactionType())
+                .operationType(transaction.getOperationType())
                 .amount(transaction.getAmount())
                 .updatedBalance(transaction.getAccount().getBalance())
                 .transactionDate(transaction.getCreatedAt())
