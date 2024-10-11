@@ -1,6 +1,6 @@
 package com.pablodev9.novainvest.model;
 
-import com.pablodev9.novainvest.model.enums.InvestmentType;
+import com.pablodev9.novainvest.model.enums.OperationType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,7 +24,7 @@ public class Investment {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     @Enumerated(EnumType.STRING)
-    private InvestmentType investmentType;
+    private OperationType operationType;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "portfolio_id")

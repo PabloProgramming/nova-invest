@@ -1,7 +1,7 @@
 package com.pablodev9.novainvest.model;
 
+import com.pablodev9.novainvest.model.enums.OperationType;
 import com.pablodev9.novainvest.model.enums.OrderStatus;
-import com.pablodev9.novainvest.model.enums.OrderType;
 import com.pablodev9.novainvest.model.enums.PriceType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -21,7 +21,7 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Enumerated(EnumType.STRING)
-    private OrderType orderType;
+    private OperationType operationType;
     private double quantity;
     private BigDecimal price;
     @Enumerated(EnumType.STRING)

@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/api/account")
+@RequestMapping("/api/transaction")
 public class TransactionController {
 
     @Autowired
     private TransactionService transactionService;
 
-    @PostMapping("/transactions")
+    @PostMapping("/deposit-or-withdrawal")
     private ResponseEntity<TransactionResponseDto> depositOrWithdrawal(@RequestBody final TransactionDto transactionDto) {
         return ResponseEntity.ok(transactionService.depositOrWithdrawal(transactionDto));
     }

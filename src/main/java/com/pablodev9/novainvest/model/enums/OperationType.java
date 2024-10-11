@@ -3,7 +3,7 @@ package com.pablodev9.novainvest.model.enums;
 import lombok.Getter;
 
 @Getter
-public enum TransactionType {
+public enum OperationType {
     DEPOSIT,
     WITHDRAWAL,
     BUY,

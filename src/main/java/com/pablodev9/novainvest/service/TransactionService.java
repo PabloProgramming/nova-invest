@@ -24,8 +24,8 @@ public class TransactionService {
     @Transactional
     public TransactionResponseDto depositOrWithdrawal(final TransactionDto transactionDto) {
         final Transaction transaction = transactionMapper.requestDtoToEntity(transactionDto);
-        final Transaction savedTransaction = transactionRepository.save(transaction);
         accountService.updateAccountBalance(transactionDto);
+        final Transaction savedTransaction = transactionRepository.save(transaction);
         return transactionMapper.entityToResponseDto(savedTransaction);
     }
 }
