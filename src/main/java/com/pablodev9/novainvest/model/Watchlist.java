@@ -24,6 +24,7 @@ public class Watchlist {
             inverseJoinColumns = @JoinColumn(name = "asset_id")
     )
     private List<Asset> assets;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_nova_id")
     private Portfolio portfolio;

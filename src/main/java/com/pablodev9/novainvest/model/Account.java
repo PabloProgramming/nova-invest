@@ -1,6 +1,5 @@
 package com.pablodev9.novainvest.model;
 
-import com.pablodev9.novainvest.model.enums.OrderStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -34,52 +33,7 @@ public class Account {
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Transaction> transactions;
 
-    public BigDecimal calculateBalance() {
-        BigDecimal totalPortfolioValue = BigDecimal.ZERO;
 
-        for (Portfolio portfolio : portfolios) {
-            if (portfolio != null) {
-                totalPortfolioValue = totalPortfolioValue.add(portfolio.calculateTotalValue());
-            }
-        }
-
-        // Total balance is the sum of portfolio values + equity + reserved funds
-        return totalPortfolioValue.add(equity).add(reservedFunds);
-    }
-
-    public BigDecimal calculateEquity() {
-        return calculateBalance().subtract(calculateMargin()).subtract(calculateReservedFunds());
-    }
-
-    public BigDecimal calculateMargin() {
-        BigDecimal totalMargin = BigDecimal.ZERO;
-
-        for (Portfolio portfolio : portfolios) {
-            if (portfolio != null) {
-                for (Investment investment : portfolio.getInvestments()) {
-                    totalMargin = totalMargin.add(investment.calculateAmountInvested());
-                }
-            }
-        }
-
-        return totalMargin;
-    }
-
-    public BigDecimal calculateReservedFunds() {
-        BigDecimal totalReservedFunds = BigDecimal.ZERO;
-
-        for (Portfolio portfolio : portfolios) {
-            if (portfolio != null) {
-                for (Order order : portfolio.getOrders()) {
-                    if (order.getOrderStatus().equals(OrderStatus.PENDING)) {
-                        totalReservedFunds = totalReservedFunds.add( order.getPrice().multiply(BigDecimal.valueOf(order.getQuantity()))
-                        );
-                    }
-                }
-            }
-        }
-        return totalReservedFunds;
-    }
 
 
     @PrePersist

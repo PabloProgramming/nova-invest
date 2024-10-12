@@ -1,5 +1,6 @@
 package com.pablodev9.novainvest.service;
 
+import com.pablodev9.novainvest.model.Account;
 import com.pablodev9.novainvest.model.Transaction;
 import com.pablodev9.novainvest.model.dto.TransactionDto;
 import com.pablodev9.novainvest.model.dto.TransactionResponseDto;
@@ -25,6 +26,8 @@ public class TransactionService {
     public TransactionResponseDto depositOrWithdrawal(final TransactionDto transactionDto) {
         final Transaction transaction = transactionMapper.requestDtoToEntity(transactionDto);
         accountService.updateAccountBalance(transactionDto);
+        final Account updatedAccount = accountService.findAccountById(transactionDto.getAccountId());
+        accountService.save(updatedAccount);
         final Transaction savedTransaction = transactionRepository.save(transaction);
         return transactionMapper.entityToResponseDto(savedTransaction);
     }

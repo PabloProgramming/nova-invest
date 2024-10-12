@@ -28,6 +28,8 @@ public class Order {
     private OrderStatus orderStatus;
     @Enumerated(EnumType.STRING)
     private PriceType priceType;
+    private BigDecimal stopLoss;
+    private BigDecimal takeProfit;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
