@@ -4,6 +4,7 @@ import com.pablodev9.novainvest.model.Portfolio;
 import com.pablodev9.novainvest.model.dto.PortfolioDto;
 import com.pablodev9.novainvest.model.dto.PortfolioSummaryDto;
 import com.pablodev9.novainvest.service.AccountService;
+import com.pablodev9.novainvest.service.PortfolioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,10 @@ public class PortfolioMapper {
 
     @Autowired
     @Lazy
+    private PortfolioService portfolioService;
+
+    @Autowired
+    @Lazy
     private AccountService accountService;
 
     public List<PortfolioSummaryDto> toSummaryDtos(final List<Portfolio> portfolios) {
@@ -28,7 +33,7 @@ public class PortfolioMapper {
             PortfolioSummaryDto portfolioSummaryDto = PortfolioSummaryDto.builder()
                     .id(portfolio.getId())
                     .portfolioName(portfolio.getName())
-                    .totalValue(portfolio.calculateTotalValue())
+                    .totalValue(portfolioService.calculateTotalValue(portfolio))
                     .investmentSummaryDtos(investmentMapper.toSummaryDtos(portfolio.getInvestments()))
                     .build();
             portfolioSummaryDtos.add(portfolioSummaryDto);

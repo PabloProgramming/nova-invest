@@ -32,19 +32,6 @@ public class Portfolio {
     @OneToMany(mappedBy = "portfolio", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Order> orders;
 
-    public BigDecimal calculateTotalValue() {
-        BigDecimal totalValue = BigDecimal.ZERO;
-
-        for (Investment investment : investments) {
-            if (investment != null) {
-                BigDecimal amountInvested = (investment.calculateAmountInvested() != null ? investment.calculateAmountInvested() : BigDecimal.ZERO);
-                BigDecimal investmentValue = investment.calculateProfitOrLoss();
-                totalValue = totalValue.add(amountInvested).add(investmentValue);
-            }
-        }
-        return totalValue;
-    }
-
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
