@@ -1,23 +1,18 @@
 package com.pablodev9.novainvest.service.mapper;
 
 import com.pablodev9.novainvest.model.Portfolio;
-import com.pablodev9.novainvest.model.dto.PortfolioDto;
 import com.pablodev9.novainvest.model.dto.PortfolioSummaryDto;
-import com.pablodev9.novainvest.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.math.BigDecimal;
+
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class PortfolioMapper {
+public class PortfolioSummaryMapper {
 
     @Autowired
     private InvestmentMapper investmentMapper;
-
-    @Autowired
-    private AccountService accountService;
 
     public List<PortfolioSummaryDto> toSummaryDtos(final List<Portfolio> portfolios) {
         List<PortfolioSummaryDto> portfolioSummaryDtos = new ArrayList<>();
@@ -32,22 +27,5 @@ public class PortfolioMapper {
         }
         return portfolioSummaryDtos;
     }
-
-    public Portfolio dtoToPortfolio(final PortfolioDto portfolioDto) {
-        Portfolio portfolio = new Portfolio();
-        portfolio.setAccount(accountService.findAccountById(portfolioDto.getAccountId()));
-        portfolio.setName(portfolioDto.getPortfolioName());
-        portfolio.setTotalValue(BigDecimal.ZERO);
-        return portfolio;
-    }
-
-    public PortfolioDto portfolioToDto(final Portfolio portfolio) {
-        return PortfolioDto.builder()
-                .portfolioName(portfolio.getName())
-                .portfolioId(portfolio.getId())
-                .accountId(portfolio.getAccount().getId())
-                .totalValue(portfolio.getTotalValue())
-                .createdAt(portfolio.getCreatedAt().toString())
-                .build();
-    }
 }
+
