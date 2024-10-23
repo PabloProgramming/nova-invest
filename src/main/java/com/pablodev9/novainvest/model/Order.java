@@ -23,6 +23,7 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OperationType operationType;
     private double quantity;
+    private BigDecimal transactionFees;
     private BigDecimal price;
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;

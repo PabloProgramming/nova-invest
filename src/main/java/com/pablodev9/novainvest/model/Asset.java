@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Data
@@ -25,13 +24,8 @@ public class Asset {
     private Boolean marketOpen;
     private LocalDateTime marketCloseTime;
 
-    @OneToMany(mappedBy = "asset", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Order> orders;
-    @OneToMany(mappedBy = "asset", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Investment> investments;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "market_id")
     private Market market;
-    @ManyToMany(mappedBy = "assets", fetch = FetchType.LAZY)
-    private List<Watchlist> watchlists;
+
 }

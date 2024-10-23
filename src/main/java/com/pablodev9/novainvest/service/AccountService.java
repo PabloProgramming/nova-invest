@@ -6,30 +6,25 @@ import com.pablodev9.novainvest.model.dto.TransactionDto;
 import com.pablodev9.novainvest.model.enums.OrderStatus;
 import com.pablodev9.novainvest.repository.AccountRepository;
 import com.pablodev9.novainvest.service.mapper.AccountMapper;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Service
 public class AccountService {
 
-    @Autowired
-    private AccountRepository accountRepository;
+    private final AccountRepository accountRepository;
 
-    @Autowired
-    @Lazy
-    private AccountMapper accountMapper;
+    private final AccountMapper accountMapper;
 
-    @Autowired
-    private PortfolioService portfolioService;
+    private final UtilitiesService utilitiesService;
 
-    @Autowired
-    private InvestmentService investmentService;
+    private final InvestmentService investmentService;
 
 
     public void createAccountForUser(User user) {
@@ -43,8 +38,8 @@ public class AccountService {
         accountRepository.save(account);
     }
 
-    public Account save(Account account) {
-        return accountRepository.save(account);
+    public void save(Account account) {
+        accountRepository.save(account);
     }
 
     @Transactional
@@ -89,7 +84,7 @@ public class AccountService {
 
         for (Portfolio portfolio : account.getPortfolios()) {
             if (portfolio != null) {
-                totalPortfolioValue = totalPortfolioValue.add(portfolioService.calculateTotalValue(portfolio));
+                totalPortfolioValue = totalPortfolioValue.add(utilitiesService.calculateTotalValue(portfolio));
             }
         }
 
