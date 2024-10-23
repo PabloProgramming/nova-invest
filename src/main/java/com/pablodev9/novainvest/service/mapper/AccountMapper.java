@@ -2,14 +2,14 @@ package com.pablodev9.novainvest.service.mapper;
 
 import com.pablodev9.novainvest.model.Account;
 import com.pablodev9.novainvest.model.dto.AccountPortfolioDto;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+@RequiredArgsConstructor
 @Service
 public class AccountMapper {
 
-    @Autowired
-    private PortfolioSummaryMapper portfolioSummaryMapper;
+    private final PortfolioSummaryMapper portfolioSummaryMapper;
 
 
     public AccountPortfolioDto toResponseDto(final Account account) {

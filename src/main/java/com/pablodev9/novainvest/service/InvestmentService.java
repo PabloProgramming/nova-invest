@@ -1,10 +1,12 @@
 package com.pablodev9.novainvest.service;
 
 import com.pablodev9.novainvest.model.Investment;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 
+@RequiredArgsConstructor
 @Service
 public class InvestmentService {
 
