@@ -1,27 +1,26 @@
 package com.pablodev9.novainvest.service;
 
+import com.pablodev9.novainvest.exceptionsHandler.exceptions.notFoundExceptions.UserNotFoundException;
 import com.pablodev9.novainvest.model.User;
 import com.pablodev9.novainvest.model.dto.UserDto;
 import com.pablodev9.novainvest.model.dto.UserResponseDto;
 import com.pablodev9.novainvest.repository.UserRepository;
 import com.pablodev9.novainvest.service.mapper.UserMapper;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Service
 public class UserService {
 
-    @Autowired
-    private UserMapper userMapper;
+    private final UserMapper userMapper;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private AccountService accountService;
+    private final AccountService accountService;
 
     public UserResponseDto registerUser(final UserDto userDto) {
         final User user = userMapper.requestDtoToEntity(userDto);
@@ -47,6 +46,6 @@ public class UserService {
         if (optionalUser.isPresent()) {
             return optionalUser.get();
         }
-        throw new Exception();
+        throw new UserNotFoundException(userId);
     }
 }

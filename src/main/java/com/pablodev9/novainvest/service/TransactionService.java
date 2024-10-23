@@ -6,21 +6,19 @@ import com.pablodev9.novainvest.model.dto.TransactionDto;
 import com.pablodev9.novainvest.model.dto.TransactionResponseDto;
 import com.pablodev9.novainvest.repository.TransactionRepository;
 import com.pablodev9.novainvest.service.mapper.TransactionMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@RequiredArgsConstructor
 @Service
 public class TransactionService {
 
-    @Autowired
-    private TransactionMapper transactionMapper;
+    private final TransactionMapper transactionMapper;
 
-    @Autowired
-    private TransactionRepository transactionRepository;
+    private final TransactionRepository transactionRepository;
 
-    @Autowired
-    private AccountService accountService;
+    private final AccountService accountService;
 
     @Transactional
     public TransactionResponseDto depositOrWithdrawal(final TransactionDto transactionDto) {

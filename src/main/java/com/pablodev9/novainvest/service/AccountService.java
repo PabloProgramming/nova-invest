@@ -1,6 +1,10 @@
 package com.pablodev9.novainvest.service;
 
-import com.pablodev9.novainvest.model.*;
+import com.pablodev9.novainvest.exceptionsHandler.exceptions.badRequestExceptions.InsufficientBalanceException;
+import com.pablodev9.novainvest.exceptionsHandler.exceptions.badRequestExceptions.InvalidTransactionTypeException;
+import com.pablodev9.novainvest.exceptionsHandler.exceptions.notFoundExceptions.AccountNotFoundException;
+import com.pablodev9.novainvest.model.Account;
+import com.pablodev9.novainvest.model.User;
 import com.pablodev9.novainvest.model.dto.AccountPortfolioDto;
 import com.pablodev9.novainvest.model.dto.TransactionDto;
 import com.pablodev9.novainvest.model.enums.OrderStatus;
@@ -12,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -49,28 +54,30 @@ public class AccountService {
     }
 
     @SneakyThrows
-    public Account findAccountById(final Long id) {
-        final Optional<Account> optionalAccount = accountRepository.findById(id);
+    public Account findAccountById(final Long accountId) {
+        final Optional<Account> optionalAccount = accountRepository.findById(accountId);
         if (optionalAccount.isPresent()) {
             return optionalAccount.get();
         }
-        throw new Exception();
+        throw new AccountNotFoundException(accountId);
     }
 
+    @SneakyThrows
     public void updateAccountBalance(final TransactionDto transactionDto) {
         Account account = findAccountById(transactionDto.getAccountId());
         final BigDecimal amount = transactionDto.getAmount();
 
-        switch (transactionDto.getOperationType()) {
+        switch (transactionDto.getTransactionType()) {
             case WITHDRAWAL -> withdrawal(account, amount);
             case DEPOSIT -> deposit(account, amount);
-            default -> throw new IllegalArgumentException("Invalid transaction type");
+            default -> throw new InvalidTransactionTypeException(transactionDto.getTransactionType().toString());
         }
     }
 
+    @SneakyThrows
     private void withdrawal(Account account, BigDecimal amount) {
         if (account.getBalance().compareTo(amount) < 0) {
-            throw new IllegalArgumentException("Insufficient balance");
+            throw new InsufficientBalanceException(account.getBalance());
         }
         account.setBalance(account.getBalance().subtract(amount));
     }
@@ -80,13 +87,10 @@ public class AccountService {
     }
 
     public BigDecimal calculateBalance(Account account) {
-        BigDecimal totalPortfolioValue = BigDecimal.ZERO;
-
-        for (Portfolio portfolio : account.getPortfolios()) {
-            if (portfolio != null) {
-                totalPortfolioValue = totalPortfolioValue.add(utilitiesService.calculateTotalValue(portfolio));
-            }
-        }
+        BigDecimal totalPortfolioValue = account.getPortfolios().stream()
+                .filter(Objects::nonNull)
+                .map(utilitiesService::calculateTotalValue)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         return totalPortfolioValue.add(account.getEquity()).add(account.getReservedFunds());
     }
@@ -98,31 +102,19 @@ public class AccountService {
     }
 
     public BigDecimal calculateMargin(Account account) {
-        BigDecimal totalMargin = BigDecimal.ZERO;
-
-        for (Portfolio portfolio : account.getPortfolios()) {
-            if (portfolio != null) {
-                for (Investment investment : portfolio.getInvestments()) {
-                    totalMargin = totalMargin.add(investmentService.calculateAmountInvested(investment));
-                }
-            }
-        }
-        return totalMargin;
+        return account.getPortfolios().stream()
+                .filter(Objects::nonNull) // Filter out null portfolios
+                .flatMap(portfolio -> portfolio.getInvestments().stream()) // Flatten the investments into a single stream
+                .map(investmentService::calculateAmountInvested) // Map each investment to its invested amount
+                .reduce(BigDecimal.ZERO, BigDecimal::add); // Sum all amounts invested, starting from BigDecimal.ZERO
     }
 
     public BigDecimal calculateReservedFunds(Account account) {
-        BigDecimal totalReservedFunds = BigDecimal.ZERO;
-
-        for (Portfolio portfolio : account.getPortfolios()) {
-            if (portfolio != null) {
-                for (Order order : portfolio.getOrders()) {
-                    if (order.getOrderStatus().equals(OrderStatus.PENDING)) {
-                        totalReservedFunds = totalReservedFunds.add(order.getPrice().multiply(BigDecimal.valueOf(order.getQuantity()))
-                        );
-                    }
-                }
-            }
-        }
-        return totalReservedFunds;
+        return account.getPortfolios().stream()
+                .filter(Objects::nonNull) // Filter out null portfolios
+                .flatMap(portfolio -> portfolio.getOrders().stream()) // Flatten the orders into a single stream
+                .filter(order -> order.getOrderStatus().equals(OrderStatus.PENDING)) // Filter only pending orders
+                .map(order -> order.getPrice().multiply(BigDecimal.valueOf(order.getQuantity()))) // Calculate reserved funds for each order
+                .reduce(BigDecimal.ZERO, BigDecimal::add); // Sum all reserved funds, starting from BigDecimal.ZERO
     }
 }

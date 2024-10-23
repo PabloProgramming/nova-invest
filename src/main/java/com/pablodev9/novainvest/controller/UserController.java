@@ -3,7 +3,7 @@ package com.pablodev9.novainvest.controller;
 import com.pablodev9.novainvest.model.dto.UserDto;
 import com.pablodev9.novainvest.model.dto.UserResponseDto;
 import com.pablodev9.novainvest.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+@RequiredArgsConstructor
 @Controller
 @RequestMapping("/api/user")
 public class UserController {
 
-    @Autowired
-    UserService userService;
+    private final UserService userService;
 
     @PostMapping("/register")
     private ResponseEntity<UserResponseDto> registerUser(@RequestBody final UserDto userDto) {

@@ -1,6 +1,7 @@
 package com.pablodev9.novainvest.model.dto;
 
-import com.pablodev9.novainvest.model.enums.OperationType;
+import com.pablodev9.novainvest.model.enums.TransactionType;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import java.math.BigDecimal;
 @RequiredArgsConstructor
 public class TransactionDto {
     private final Long accountId;
-    private final OperationType operationType;
+    @NotNull(message = "Operation type cannot be null")
+    private final TransactionType transactionType;
     private final BigDecimal amount;
 }

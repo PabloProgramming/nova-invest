@@ -4,18 +4,18 @@ import com.pablodev9.novainvest.model.Transaction;
 import com.pablodev9.novainvest.model.dto.TransactionDto;
 import com.pablodev9.novainvest.model.dto.TransactionResponseDto;
 import com.pablodev9.novainvest.service.AccountService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
+@RequiredArgsConstructor
 @Service
 public class TransactionMapper {
 
-    @Autowired
-    private AccountService accountService;
+    private final AccountService accountService;
 
     public Transaction requestDtoToEntity(final TransactionDto transactionDto) {
         Transaction transaction = new Transaction();
-        transaction.setOperationType(transactionDto.getOperationType());
+        transaction.setTransactionType(transactionDto.getTransactionType());
+        transaction.setTransactionType(transactionDto.getTransactionType());
         transaction.setAmount(transactionDto.getAmount());
         transaction.setAccount(accountService.findAccountById(transactionDto.getAccountId()));
         return transaction;
@@ -25,7 +25,7 @@ public class TransactionMapper {
     public TransactionResponseDto entityToResponseDto(final Transaction transaction) {
         return TransactionResponseDto.builder()
                 .transactionId(transaction.getId())
-                .operationType(transaction.getOperationType())
+                .transactionType(transaction.getTransactionType())
                 .amount(transaction.getAmount())
                 .updatedBalance(transaction.getAccount().getBalance())
                 .transactionDate(transaction.getCreatedAt())
