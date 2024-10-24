@@ -6,10 +6,7 @@ import com.pablodev9.novainvest.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @Controller
@@ -26,6 +23,11 @@ public class UserController {
     @PutMapping("/update")
     private ResponseEntity<UserResponseDto> updateUser(@RequestBody final UserDto userDto) {
         return ResponseEntity.ok(userService.updateUser(userDto));
+    }
+
+    @GetMapping("/{userId}")
+    private ResponseEntity<UserResponseDto> getUserById(@PathVariable final Long userId) {
+        return ResponseEntity.ok(userService.getUserById(userId));
     }
 
 }

@@ -40,6 +40,11 @@ public class UserService {
         return userMapper.entityToResponseDto(updatedUser);
     }
 
+    public UserResponseDto getUserById(final Long userId) {
+        final User user = findUserById(userId);
+        return userMapper.entityToResponseDto(user);
+    }
+
     @SneakyThrows
     public User findUserById(final Long userId) {
         final Optional<User> optionalUser = userRepository.findById(userId);
