@@ -6,6 +6,10 @@ import com.pablodev9.novainvest.model.dto.TransactionResponseDto;
 import com.pablodev9.novainvest.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RequiredArgsConstructor
 @Service
 public class TransactionMapper {
@@ -30,5 +34,15 @@ public class TransactionMapper {
                 .updatedBalance(transaction.getAccount().getBalance())
                 .transactionDate(transaction.getCreatedAt())
                 .build();
+    }
+
+    public List<TransactionDto> toResponseDtos(final List<Transaction> transactions) {
+        return transactions.stream()
+                .map(transaction -> TransactionDto.builder()
+                        .accountId(transaction.getAccount().getId())
+                        .transactionType(transaction.getTransactionType())
+                        .amount(transaction.getAmount())
+                        .build())
+                .collect(Collectors.toList());
     }
 }
