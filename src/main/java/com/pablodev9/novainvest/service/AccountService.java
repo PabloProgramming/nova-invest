@@ -43,6 +43,11 @@ public class AccountService {
         accountRepository.save(account);
     }
 
+    public void deleteAccount(Long userId) {
+        final Account account = accountRepository.getAccountByUserId(userId);
+        accountRepository.delete(account);
+    }
+
     public void save(Account account) {
         accountRepository.save(account);
     }
