@@ -6,9 +6,9 @@ import com.pablodev9.novainvest.service.TransactionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @Controller
@@ -20,5 +20,10 @@ public class TransactionController {
     @PostMapping("/deposit-or-withdrawal")
     private ResponseEntity<TransactionResponseDto> depositOrWithdrawal(@RequestBody final TransactionDto transactionDto) {
         return ResponseEntity.ok(transactionService.depositOrWithdrawal(transactionDto));
+    }
+
+    @GetMapping("/history/{accountId}")
+    private ResponseEntity<List<TransactionDto>> getTransactionsByAccountId(@PathVariable Long accountId) {
+        return ResponseEntity.ok(transactionService.getTransactionHistory(accountId));
     }
 }

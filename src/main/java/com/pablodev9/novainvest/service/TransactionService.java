@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class TransactionService {
@@ -29,4 +31,11 @@ public class TransactionService {
         final Transaction savedTransaction = transactionRepository.save(transaction);
         return transactionMapper.entityToResponseDto(savedTransaction);
     }
+
+    public List<TransactionDto> getTransactionHistory(Long accountId) {
+        accountService.findAccountById(accountId);
+        final List<Transaction> transactions = transactionRepository.getTransactionsByAccountId(accountId);
+        return transactionMapper.toResponseDtos(transactions);
+    }
+
 }
