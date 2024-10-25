@@ -45,6 +45,13 @@ public class UserService {
         return userMapper.entityToResponseDto(user);
     }
 
+    public Long deleteUser(final Long userId) {
+        final User user = findUserById(userId);
+        accountService.deleteAccount(userId);
+        userRepository.delete(user);
+        return userId;
+    }
+
     @SneakyThrows
     public User findUserById(final Long userId) {
         final Optional<User> optionalUser = userRepository.findById(userId);
