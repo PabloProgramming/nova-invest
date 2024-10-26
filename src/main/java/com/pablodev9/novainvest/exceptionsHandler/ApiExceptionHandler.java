@@ -3,6 +3,7 @@ package com.pablodev9.novainvest.exceptionsHandler;
 import com.pablodev9.novainvest.exceptionsHandler.exceptions.badRequestExceptions.InsufficientBalanceException;
 import com.pablodev9.novainvest.exceptionsHandler.exceptions.badRequestExceptions.InvalidTransactionTypeException;
 import com.pablodev9.novainvest.exceptionsHandler.exceptions.notFoundExceptions.AccountNotFoundException;
+import com.pablodev9.novainvest.exceptionsHandler.exceptions.notFoundExceptions.PortfolioNotFoundException;
 import com.pablodev9.novainvest.exceptionsHandler.exceptions.notFoundExceptions.UserNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ControllerAdvice
 public class ApiExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler({UserNotFoundException.class, AccountNotFoundException.class})
+    @ExceptionHandler({UserNotFoundException.class, AccountNotFoundException.class, PortfolioNotFoundException.class})
     @ResponseBody
     public ErrorMessage notFoundRequest(HttpServletRequest request, Exception exception) {
         return new ErrorMessage(exception, request.getRequestURI());
