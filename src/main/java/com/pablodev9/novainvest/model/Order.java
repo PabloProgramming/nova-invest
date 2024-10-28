@@ -24,6 +24,7 @@ public class Order {
     private OrderType orderType;
     private double quantity;
     private BigDecimal transactionFees;
+    private BigDecimal purchasePrice;
     private BigDecimal price;
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
