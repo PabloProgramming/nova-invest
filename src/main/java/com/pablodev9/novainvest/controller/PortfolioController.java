@@ -1,5 +1,6 @@
 package com.pablodev9.novainvest.controller;
 
+import com.pablodev9.novainvest.model.dto.ModifyPortfolioNameDto;
 import com.pablodev9.novainvest.model.dto.PortfolioDto;
 import com.pablodev9.novainvest.model.dto.PortfolioResponseDto;
 import com.pablodev9.novainvest.service.PortfolioService;
@@ -23,6 +24,11 @@ public class PortfolioController {
     @GetMapping("/{portfolioId}")
     private ResponseEntity<PortfolioResponseDto> getPortfolioDetails(@PathVariable final Long portfolioId) {
         return ResponseEntity.ok(portfolioService.getPortfolioDetails(portfolioId));
+    }
+
+    @PutMapping("/update-details")
+    private ResponseEntity<ModifyPortfolioNameDto> updatePortfolioName(@RequestBody final ModifyPortfolioNameDto modifyPortfolioNameDto) {
+        return ResponseEntity.ok(portfolioService.updatePortfolioName(modifyPortfolioNameDto));
     }
 
 }
