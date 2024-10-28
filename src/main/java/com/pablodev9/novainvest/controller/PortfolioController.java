@@ -31,4 +31,9 @@ public class PortfolioController {
         return ResponseEntity.ok(portfolioService.updatePortfolioName(modifyPortfolioNameDto));
     }
 
+    @DeleteMapping("/{portfolioId}")
+    private ResponseEntity<Long> deletePortfolio(@PathVariable final Long portfolioId) {
+        return ResponseEntity.ok(portfolioService.deletePortfolio(portfolioId));
+    }
+
 }

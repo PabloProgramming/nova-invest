@@ -45,6 +45,12 @@ public class PortfolioService {
         return modifyPortfolioMapper.portfolioToDto(updatedPortfolio);
     }
 
+    public Long deletePortfolio(final Long portfolioId) {
+        final Portfolio portfolio = findPortfolioById(portfolioId);
+        portfolioRepository.delete(portfolio);
+        return portfolioId;
+    }
+
     @SneakyThrows
     public Portfolio findPortfolioById(Long portfolioId) {
         final Optional<Portfolio> optionalPortfolio = portfolioRepository.findById(portfolioId);
