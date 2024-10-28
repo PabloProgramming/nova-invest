@@ -17,6 +17,6 @@ public class PortfolioResponseDto {
     private final BigDecimal totalValue;
     private final String updateAt;
     private final List<WatchlistResponseDto> watchlistResponseDtos;
-    private final List<AssetResponseDto> assetResponseDtos;
+    private final List<OrderDto> orderResponseDtos;
     private final List<InvestmentSummaryDto> investmentSummaryDtos;
 }
