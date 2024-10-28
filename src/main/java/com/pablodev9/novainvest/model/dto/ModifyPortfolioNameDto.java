@@ -4,13 +4,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Builder
 @Getter
 @RequiredArgsConstructor
-public class PortfolioSummaryDto {
-    private final Long id;
+public class ModifyPortfolioNameDto {
+    private final Long portfolioId;
     private final String portfolioName;
-    private final BigDecimal totalValue;
+    private final LocalDateTime updatedAt;
 }
