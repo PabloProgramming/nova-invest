@@ -5,14 +5,19 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Builder
 @Getter
 @RequiredArgsConstructor
-public class InvestmentSummaryDto {
+public class InvestmentResponseDto {
+    private final Long portfolioId;
     private final Long investmentId;
+    private final Long assetId;
     private final String assetName;
+    private final double quantity;
     private final BigDecimal amountInvested;
-    private final BigDecimal currentPrice;
-    private final BigDecimal profitOrLoss;
+    private final BigDecimal transactionFees;
+    private final BigDecimal purchasePrice;
+    private final LocalDateTime createdAt;
 }
