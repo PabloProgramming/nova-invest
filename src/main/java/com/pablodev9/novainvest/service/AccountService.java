@@ -92,7 +92,7 @@ public class AccountService {
     public BigDecimal calculateBalance(Account account) {
         BigDecimal totalPortfolioValue = account.getPortfolios().stream()
                 .filter(Objects::nonNull)
-                .map(utilitiesService::calculateTotalValue)
+                .map(financialOperationService::calculateTotalValue)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         return totalPortfolioValue.add(account.getEquity()).add(account.getReservedFunds());
@@ -108,7 +108,7 @@ public class AccountService {
         return account.getPortfolios().stream()
                 .filter(Objects::nonNull) // Filter out null portfolios
                 .flatMap(portfolio -> portfolio.getInvestments().stream()) // Flatten the investments into a single stream
-                .map(investmentService::calculateAmountInvested) // Map each investment to its invested amount
+                .map(financialOperationService::calculateAmountInvested) // Map each investment to its invested amount
                 .reduce(BigDecimal.ZERO, BigDecimal::add); // Sum all amounts invested, starting from BigDecimal.ZERO
     }
 
@@ -117,7 +117,7 @@ public class AccountService {
                 .filter(Objects::nonNull) // Filter out null portfolios
                 .flatMap(portfolio -> portfolio.getOrders().stream()) // Flatten the orders into a single stream
                 .filter(order -> order.getOrderStatus().equals(OrderStatus.PENDING)) // Filter only pending orders
-                .map(order -> order.getPrice().multiply(BigDecimal.valueOf(order.getQuantity()))) // Calculate reserved funds for each order
+                .map(order -> order.getPrice().multiply(order.getQuantity())) // Calculate reserved funds for each order
                 .reduce(BigDecimal.ZERO, BigDecimal::add); // Sum all reserved funds, starting from BigDecimal.ZERO
     }
 }
