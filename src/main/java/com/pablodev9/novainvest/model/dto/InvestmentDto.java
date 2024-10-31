@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 @Builder
 @Getter
@@ -13,7 +12,5 @@ import java.time.LocalDateTime;
 public class InvestmentDto {
     private final Long portfolioId;
     private final Long assetId;
-    private final double quantity;
-    private final BigDecimal purchasePrice;
-    private final LocalDateTime createdAt;
+    private final BigDecimal quantity;
 }

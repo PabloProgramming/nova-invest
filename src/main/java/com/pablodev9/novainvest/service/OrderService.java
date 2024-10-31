@@ -12,16 +12,16 @@ public class OrderService {
 
     public BigDecimal calculateAmountInvested(Order order) {
         return order.getPurchasePrice()
-                .multiply(BigDecimal.valueOf(order.getQuantity()))
+                .multiply(order.getQuantity())
                 .add(order.getTransactionFees());
     }
 
     public BigDecimal calculateProfitOrLoss(Order order) {
         BigDecimal initialInvestmentCost = order.getPurchasePrice()
-                .multiply(BigDecimal.valueOf(order.getQuantity()))
+                .multiply(order.getQuantity())
                 .add(order.getTransactionFees());
         BigDecimal currentValue = order.getPrice()
-                .multiply(BigDecimal.valueOf(order.getQuantity()));
+                .multiply(order.getQuantity());
         return currentValue.subtract(initialInvestmentCost);
     }
 }

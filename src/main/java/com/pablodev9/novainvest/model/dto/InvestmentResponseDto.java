@@ -15,7 +15,7 @@ public class InvestmentResponseDto {
     private final Long investmentId;
     private final Long assetId;
     private final String assetName;
-    private final double quantity;
+    private final BigDecimal quantity;
     private final BigDecimal amountInvested;
     private final BigDecimal transactionFees;
     private final BigDecimal purchasePrice;
