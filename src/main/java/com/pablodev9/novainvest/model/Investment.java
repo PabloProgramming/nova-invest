@@ -17,7 +17,7 @@ public class Investment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private double quantity;
+    private BigDecimal quantity;
     private BigDecimal purchasePrice;
     private BigDecimal currentPrice;
     private BigDecimal transactionFees;

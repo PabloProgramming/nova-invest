@@ -22,7 +22,7 @@ public class Order {
     private Long id;
     @Enumerated(EnumType.STRING)
     private OrderType orderType;
-    private double quantity;
+    private BigDecimal quantity;
     private BigDecimal transactionFees;
     private BigDecimal purchasePrice;
     private BigDecimal price;
@@ -41,10 +41,6 @@ public class Order {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "asset_id")
     private Asset asset;
-
-    public BigDecimal calculateAmountInvested() {
-        return price.multiply(BigDecimal.valueOf(quantity));
-    }
 
     @PrePersist
     protected void onCreate() {

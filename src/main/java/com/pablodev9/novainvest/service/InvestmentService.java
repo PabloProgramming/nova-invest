@@ -1,5 +1,6 @@
 package com.pablodev9.novainvest.service;
 
+import com.pablodev9.novainvest.model.Asset;
 import com.pablodev9.novainvest.model.Investment;
 import com.pablodev9.novainvest.model.dto.InvestmentDto;
 import com.pablodev9.novainvest.model.dto.InvestmentResponseDto;
@@ -18,23 +19,19 @@ public class InvestmentService {
 
     private final InvestmentRepository investmentRepository;
 
-    public BigDecimal calculateAmountInvested(final Investment investment) {
-        return investment.getPurchasePrice()
-                .multiply(BigDecimal.valueOf(investment.getQuantity()))
-                .add(investment.getTransactionFees());
-    }
+    private final AssetService assetService;
 
-    public BigDecimal calculateProfitOrLoss(final Investment investment) {
-        BigDecimal initialInvestmentCost = investment.getPurchasePrice()
-                .multiply(BigDecimal.valueOf(investment.getQuantity()))
-                .add(investment.getTransactionFees());
-        BigDecimal currentValue = investment.getCurrentPrice()
-                .multiply(BigDecimal.valueOf(investment.getQuantity()));
-        return currentValue.subtract(initialInvestmentCost);
-    }
+    private final FinancialOperationService financialOperationService;
 
     public InvestmentResponseDto addInvestmentToPortfolio(final InvestmentDto investmentDto) {
+        final Asset asset = assetService.findAssetById(investmentDto.getAssetId());
+        final BigDecimal currentPrice = asset.getCurrentPrice();
+
         final Investment investment = investmentMapper.dtoToInvestment(investmentDto);
+        investment.setPurchasePrice(currentPrice);
+        investment.setAsset(asset);
+        investment.setTransactionFees(investment.getTransactionFees());
+        investment.setTransactionFees(financialOperationService.calculateTransactionFees(currentPrice, investmentDto.getQuantity()));
         final Investment savedInvestment = investmentRepository.save(investment);
         return investmentMapper.investmentToDto(savedInvestment);
     }

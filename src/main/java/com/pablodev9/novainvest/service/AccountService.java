@@ -27,9 +27,7 @@ public class AccountService {
 
     private final AccountMapper accountMapper;
 
-    private final UtilitiesService utilitiesService;
-
-    private final InvestmentService investmentService;
+    private final FinancialOperationService financialOperationService;
 
 
     public void createAccountForUser(User user) {
