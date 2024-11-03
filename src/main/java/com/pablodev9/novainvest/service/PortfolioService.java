@@ -12,7 +12,9 @@ import com.pablodev9.novainvest.service.mapper.PortfolioMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -26,6 +28,8 @@ public class PortfolioService {
     private final PortfolioDetailMapper portfolioDetailMapper;
 
     private final ModifyPortfolioMapper modifyPortfolioMapper;
+
+    private final PortfolioFinancialOperationService portfolioFinancialOperationService;
 
     public PortfolioDto createPortfolio(final PortfolioDto portfolioDto) {
         final Portfolio portfolio = portfolioMapper.dtoToPortfolio(portfolioDto);
@@ -49,6 +53,14 @@ public class PortfolioService {
         final Portfolio portfolio = findPortfolioById(portfolioId);
         portfolioRepository.delete(portfolio);
         return portfolioId;
+    }
+
+    @Transactional
+    public void updatePortfolioById(Long portfolioId) {
+        Portfolio portfolio = findPortfolioById(portfolioId);
+        BigDecimal totalValue = portfolioFinancialOperationService.calculateTotalValue(portfolio);
+        portfolio.setTotalValue(totalValue);
+        portfolioRepository.save(portfolio);
     }
 
     @SneakyThrows

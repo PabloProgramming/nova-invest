@@ -3,9 +3,8 @@ package com.pablodev9.novainvest.service.mapper;
 import com.pablodev9.novainvest.model.Investment;
 import com.pablodev9.novainvest.model.dto.InvestmentDto;
 import com.pablodev9.novainvest.model.dto.InvestmentResponseDto;
-import com.pablodev9.novainvest.service.AssetService;
+import com.pablodev9.novainvest.service.InvestmentFinancialOperationService;
 import com.pablodev9.novainvest.service.PortfolioService;
-import com.pablodev9.novainvest.service.FinancialOperationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +12,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class InvestmentMapper {
 
-    private final FinancialOperationService financialOperationService;
+    private final InvestmentFinancialOperationService investmentFinancialOperationService;
 
     private final PortfolioService portfolioService;
 
@@ -34,7 +33,7 @@ public class InvestmentMapper {
                 .transactionFees(investment.getTransactionFees())
                 .purchasePrice(investment.getPurchasePrice())
                 .createdAt(investment.getCreatedAt())
-                .amountInvested(financialOperationService.calculateAmountInvested(investment))
+                .amountInvested(investmentFinancialOperationService.calculateAmountInvested(investment))
                 .build();
     }
 }

@@ -7,7 +7,6 @@ import com.pablodev9.novainvest.model.Account;
 import com.pablodev9.novainvest.model.User;
 import com.pablodev9.novainvest.model.dto.AccountPortfolioDto;
 import com.pablodev9.novainvest.model.dto.TransactionDto;
-import com.pablodev9.novainvest.model.enums.OrderStatus;
 import com.pablodev9.novainvest.repository.AccountRepository;
 import com.pablodev9.novainvest.service.mapper.AccountMapper;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.util.Objects;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -27,8 +25,7 @@ public class AccountService {
 
     private final AccountMapper accountMapper;
 
-    private final FinancialOperationService financialOperationService;
-
+    private final AccountFinancialOperationService accountFinancialOperationService;
 
     public void createAccountForUser(User user) {
         Account account = new Account();
@@ -54,6 +51,22 @@ public class AccountService {
     public AccountPortfolioDto getAccountPortfolios(final Long userId) {
         final Account account = accountRepository.getAccountByUserId(userId);
         return accountMapper.toResponseDto(account);
+    }
+
+    @Transactional
+    public void updateAccountById(Long accountId) {
+        Account account = findAccountById(accountId);
+        BigDecimal newBalance = accountFinancialOperationService.calculateBalance(account);
+        BigDecimal newEquity = accountFinancialOperationService.calculateEquity(account);
+        BigDecimal newMargin = accountFinancialOperationService.calculateMargin(account);
+        BigDecimal newReservedFunds = accountFinancialOperationService.calculateReservedFunds(account);
+
+        account.setBalance(newBalance);
+        account.setEquity(newEquity);
+        account.setMargin(newMargin);
+        account.setReservedFunds(newReservedFunds);
+
+        accountRepository.save(account);
     }
 
     @SneakyThrows
@@ -87,37 +100,5 @@ public class AccountService {
 
     private void deposit(Account account, BigDecimal amount) {
         account.setBalance(account.getBalance().add(amount));
-    }
-
-    public BigDecimal calculateBalance(Account account) {
-        BigDecimal totalPortfolioValue = account.getPortfolios().stream()
-                .filter(Objects::nonNull)
-                .map(financialOperationService::calculateTotalValue)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-
-        return totalPortfolioValue.add(account.getEquity()).add(account.getReservedFunds());
-    }
-
-    public BigDecimal calculateEquity(Account account) {
-        return calculateBalance(account)
-                .subtract(calculateMargin(account))
-                .subtract(calculateReservedFunds(account));
-    }
-
-    public BigDecimal calculateMargin(Account account) {
-        return account.getPortfolios().stream()
-                .filter(Objects::nonNull) // Filter out null portfolios
-                .flatMap(portfolio -> portfolio.getInvestments().stream()) // Flatten the investments into a single stream
-                .map(financialOperationService::calculateAmountInvested) // Map each investment to its invested amount
-                .reduce(BigDecimal.ZERO, BigDecimal::add); // Sum all amounts invested, starting from BigDecimal.ZERO
-    }
-
-    public BigDecimal calculateReservedFunds(Account account) {
-        return account.getPortfolios().stream()
-                .filter(Objects::nonNull) // Filter out null portfolios
-                .flatMap(portfolio -> portfolio.getOrders().stream()) // Flatten the orders into a single stream
-                .filter(order -> order.getOrderStatus().equals(OrderStatus.PENDING)) // Filter only pending orders
-                .map(order -> order.getPrice().multiply(order.getQuantity())) // Calculate reserved funds for each order
-                .reduce(BigDecimal.ZERO, BigDecimal::add); // Sum all reserved funds, starting from BigDecimal.ZERO
     }
 }

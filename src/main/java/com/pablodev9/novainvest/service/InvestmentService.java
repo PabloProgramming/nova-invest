@@ -21,18 +21,25 @@ public class InvestmentService {
 
     private final AssetService assetService;
 
-    private final FinancialOperationService financialOperationService;
+    private final InvestmentFinancialOperationService investmentFinancialOperationService;
+
+    private final AccountService accountService;
+
+    private final PortfolioService portfolioService;
 
     public InvestmentResponseDto addInvestmentToPortfolio(final InvestmentDto investmentDto) {
         final Asset asset = assetService.findAssetById(investmentDto.getAssetId());
         final BigDecimal currentPrice = asset.getCurrentPrice();
 
         final Investment investment = investmentMapper.dtoToInvestment(investmentDto);
-        investment.setPurchasePrice(currentPrice);
         investment.setAsset(asset);
-        investment.setTransactionFees(investment.getTransactionFees());
-        investment.setTransactionFees(financialOperationService.calculateTransactionFees(currentPrice, investmentDto.getQuantity()));
+        investment.setPurchasePrice(currentPrice);
+        investment.setTransactionFees(investmentFinancialOperationService.calculateTransactionFees(currentPrice, investmentDto.getQuantity()));
         final Investment savedInvestment = investmentRepository.save(investment);
+
+        accountService.updateAccountById(investment.getPortfolio().getAccount().getId());
+        portfolioService.updatePortfolioById(investmentDto.getPortfolioId());
+
         return investmentMapper.investmentToDto(savedInvestment);
     }
 }
