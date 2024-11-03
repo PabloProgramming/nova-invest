@@ -23,7 +23,7 @@ public class PortfolioDetailMapper {
                 .accountId(portfolio.getAccount().getId())
                 .portfolioId(portfolio.getId())
                 .portfolioName(portfolio.getName())
-                .totalValue(portfolioFinancialOperationService.calculateTotalValue(portfolio))
+                .totalValue(portfolioFinancialOperationService.calculatePortfolioValue(portfolio))
                 .updateAt(portfolio.getUpdatedAt().toString())
                 .watchlistResponseDtos(watchlistMapper.toSummaryDtos(portfolio.getWatchlists()))
                 .investmentSummaryDtos(investmentSummaryMapper.toSummaryDtos(portfolio.getInvestments()))

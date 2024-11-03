@@ -58,7 +58,7 @@ public class PortfolioService {
     @Transactional
     public void updatePortfolioById(Long portfolioId) {
         Portfolio portfolio = findPortfolioById(portfolioId);
-        BigDecimal totalValue = portfolioFinancialOperationService.calculateTotalValue(portfolio);
+        BigDecimal totalValue = portfolioFinancialOperationService.calculatePortfolioValue(portfolio);
         portfolio.setTotalValue(totalValue);
         portfolioRepository.save(portfolio);
     }

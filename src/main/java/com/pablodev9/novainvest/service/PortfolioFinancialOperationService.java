@@ -1,6 +1,5 @@
 package com.pablodev9.novainvest.service;
 
-import com.pablodev9.novainvest.model.Investment;
 import com.pablodev9.novainvest.model.Portfolio;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,17 +13,10 @@ public class PortfolioFinancialOperationService {
 
     private final InvestmentFinancialOperationService investmentFinancialOperationService;
 
-    public BigDecimal calculateTotalValue(Portfolio portfolio) {
-        BigDecimal totalValue = BigDecimal.ZERO;
-
-        for (Investment investment : portfolio.getInvestments()) {
-            if (Objects.nonNull(investment)) {
-                BigDecimal amountInvested = investmentFinancialOperationService.calculateAmountInvested(investment);
-                BigDecimal investmentValue = investmentFinancialOperationService.calculateProfitOrLoss(investment);
-                totalValue = totalValue.add(amountInvested).add(investmentValue);
-            }
-        }
-        return totalValue;
+    public BigDecimal calculatePortfolioValue(Portfolio portfolio) {
+        return portfolio.getInvestments().stream()
+                .filter(Objects::nonNull)
+                .map(investmentFinancialOperationService::calculateCurrentValue)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
-
 }

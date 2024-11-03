@@ -32,6 +32,8 @@ public class InvestmentMapper {
                 .quantity(investment.getQuantity())
                 .transactionFees(investment.getTransactionFees())
                 .purchasePrice(investment.getPurchasePrice())
+                .currentValue(investmentFinancialOperationService.calculateCurrentValue(investment))
+                .profitOrLoss(investmentFinancialOperationService.calculateProfitOrLoss(investment))
                 .createdAt(investment.getCreatedAt())
                 .amountInvested(investmentFinancialOperationService.calculateAmountInvested(investment))
                 .build();
