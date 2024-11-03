@@ -21,6 +21,7 @@ public class Investment {
     private BigDecimal purchasePrice;
     private BigDecimal currentPrice;
     private BigDecimal transactionFees;
+    private BigDecimal amountInvested;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     @Enumerated(EnumType.STRING)

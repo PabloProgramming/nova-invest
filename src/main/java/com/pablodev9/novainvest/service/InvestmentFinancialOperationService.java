@@ -28,7 +28,16 @@ public class InvestmentFinancialOperationService {
 
     private static final BigDecimal TRANSACTION_FEE_RATE = new BigDecimal("0.01");
 
-    public BigDecimal calculateTransactionFees(BigDecimal currentPrice, BigDecimal quantity) {
-        return currentPrice.multiply(quantity).multiply(TRANSACTION_FEE_RATE);
+    public BigDecimal calculateTransactionFees(BigDecimal purchasePrice, BigDecimal quantity) {
+        return purchasePrice.multiply(quantity).multiply(TRANSACTION_FEE_RATE);
     }
+
+    public BigDecimal calculateCurrentValue(final Investment investment) {
+        BigDecimal amountInvested = investment.getAmountInvested();
+        BigDecimal transactionFees = investment.getTransactionFees();
+        BigDecimal profitOrLoss = calculateProfitOrLoss(investment);
+
+        return amountInvested.subtract(transactionFees).add(profitOrLoss);
+    }
+
 }

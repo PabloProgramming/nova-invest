@@ -19,5 +19,7 @@ public class InvestmentResponseDto {
     private final BigDecimal amountInvested;
     private final BigDecimal transactionFees;
     private final BigDecimal purchasePrice;
+    private final BigDecimal currentValue;
+    private final BigDecimal profitOrLoss;
     private final LocalDateTime createdAt;
 }

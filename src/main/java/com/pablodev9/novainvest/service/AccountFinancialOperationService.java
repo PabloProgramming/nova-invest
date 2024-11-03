@@ -27,7 +27,7 @@ public class AccountFinancialOperationService {
         BigDecimal previousBalance = account.getBalance();
         BigDecimal totalPortfolioValue = account.getPortfolios().stream()
                 .filter(Objects::nonNull)
-                .map(portfolioFinancialOperationService::calculateTotalValue) // Calculate total value of portfolios
+                .map(portfolioFinancialOperationService::calculatePortfolioValue) // Calculate total value of portfolios
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         BigDecimal margin = calculateMargin(account);
