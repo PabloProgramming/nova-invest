@@ -1,5 +1,8 @@
 package com.pablodev9.novainvest.service;
 
+import com.pablodev9.novainvest.exceptionsHandler.exceptions.notFoundExceptions.AssetNotFoundException;
+import com.pablodev9.novainvest.exceptionsHandler.exceptions.notFoundExceptions.WatchlistNotFoundException;
+import com.pablodev9.novainvest.model.Asset;
 import com.pablodev9.novainvest.model.Watchlist;
 import com.pablodev9.novainvest.model.dto.WatchlistDto;
 import com.pablodev9.novainvest.model.dto.WatchlistRequestDto;
@@ -8,6 +11,7 @@ import com.pablodev9.novainvest.repository.WatchlistRepository;
 import com.pablodev9.novainvest.service.mapper.WatchlistMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -36,6 +40,17 @@ public class WatchlistService {
         watchlist.setAssets(assetService.findAssetById(watchlistRequestDto.getAssetIds()));
         final Watchlist updatedWatchlist = watchlistRepository.save(watchlist);
         return watchlistMapper.toResponseDto(updatedWatchlist);
+    }
+
+    @Transactional
+    public Long removeAssetFromWatchlist(final Long watchlistId, final Long assetId) {
+        Watchlist watchlist = watchlistRepository.findById(watchlistId)
+                .orElseThrow(() -> new WatchlistNotFoundException(watchlistId));
+        final Asset asset = assetService.findAssetById(assetId);
+        if (!watchlist.getAssets().contains(asset)) {
+            throw new AssetNotFoundException(assetId); // If asset isn't in watchlist, throw an exception.
+        }
+        return assetId;
     }
 
 }

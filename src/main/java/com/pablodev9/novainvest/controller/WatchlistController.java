@@ -7,9 +7,7 @@ import com.pablodev9.novainvest.service.WatchlistService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @Controller
@@ -26,5 +24,10 @@ public class WatchlistController {
     @PostMapping("/add-asset")
     private ResponseEntity<WatchlistResponseDto> addAssetsToWatchlist(@RequestBody final WatchlistRequestDto watchlistRequestDto) {
         return ResponseEntity.ok(watchlistService.addAssetsToWatchlist(watchlistRequestDto));
+    }
+
+    @DeleteMapping("/{watchiltId}/remove-asset/{assetId}")
+    private ResponseEntity<Long> removeAssetFromWatchlist(@PathVariable final Long watchlistId, @PathVariable Long assetId) {
+        return ResponseEntity.ok(watchlistService.removeAssetFromWatchlist(watchlistId, assetId));
     }
 }
