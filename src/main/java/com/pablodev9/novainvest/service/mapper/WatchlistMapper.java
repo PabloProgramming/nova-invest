@@ -30,9 +30,14 @@ public class WatchlistMapper {
                 .portfolioId(watchlist.getPortfolio().getId())
                 .name(watchlist.getName())
                 .build();
-
     }
 
-
+    public WatchlistResponseDto toResponseDto(final Watchlist watchlist) {
+        return WatchlistResponseDto.builder()
+                .watchlistId(watchlist.getId())
+                .name(watchlist.getName())
+                .assetResponseDtos(assetMapper.toSummaryDtos(watchlist.getAssets()))
+                .build();
+    }
 }
 

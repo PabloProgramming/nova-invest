@@ -1,6 +1,8 @@
 package com.pablodev9.novainvest.controller;
 
 import com.pablodev9.novainvest.model.dto.WatchlistDto;
+import com.pablodev9.novainvest.model.dto.WatchlistRequestDto;
+import com.pablodev9.novainvest.model.dto.WatchlistResponseDto;
 import com.pablodev9.novainvest.service.WatchlistService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,5 +21,10 @@ public class WatchlistController {
     @PostMapping("/create")
     private ResponseEntity<WatchlistDto> createWatchlist(@RequestBody final WatchlistDto watchlistDto) {
         return ResponseEntity.ok(watchlistService.createWatchlist(watchlistDto));
+    }
+
+    @PostMapping("/add-asset")
+    private ResponseEntity<WatchlistResponseDto> addAssetsToWatchlist(@RequestBody final WatchlistRequestDto watchlistRequestDto) {
+        return ResponseEntity.ok(watchlistService.addAssetsToWatchlist(watchlistRequestDto));
     }
 }
