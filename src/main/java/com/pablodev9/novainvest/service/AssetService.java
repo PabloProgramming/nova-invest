@@ -26,7 +26,7 @@ public class AssetService {
         throw new AssetNotFoundException(assetId);
     }
 
-    public List<Asset> findAssetById(final List<Long> assetIds) {
+    public List<Asset> findAssetsById(final List<Long> assetIds) {
         List<Asset> assets = assetRepository.findAllById(assetIds);
 
         List<Long> missingAssetIds = assetIds.stream()

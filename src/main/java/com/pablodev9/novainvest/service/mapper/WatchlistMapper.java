@@ -1,7 +1,6 @@
 package com.pablodev9.novainvest.service.mapper;
 
 import com.pablodev9.novainvest.model.Watchlist;
-import com.pablodev9.novainvest.model.dto.WatchlistDto;
 import com.pablodev9.novainvest.model.dto.WatchlistResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,13 +22,6 @@ public class WatchlistMapper {
                         .assetResponseDtos(assetMapper.toSummaryDtos(watchlist.getAssets()))
                         .build())
                 .collect(Collectors.toList());
-    }
-
-    public WatchlistDto watchlistToDto(final Watchlist watchlist) {
-        return WatchlistDto.builder()
-                .portfolioId(watchlist.getPortfolio().getId())
-                .name(watchlist.getName())
-                .build();
     }
 
     public WatchlistResponseDto toResponseDto(final Watchlist watchlist) {

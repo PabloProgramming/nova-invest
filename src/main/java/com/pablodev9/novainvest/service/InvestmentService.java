@@ -47,7 +47,7 @@ public class InvestmentService {
         return investmentMapper.investmentToDto(savedInvestment);
     }
 
-    public InvestmentResponseDto getInvestmentDetails(Long investmentId) {
+    public InvestmentResponseDto getInvestmentDetails(final Long investmentId) {
         final Investment investment = findInvestmentById(investmentId);
         accountService.updateAccountById(investment.getPortfolio().getAccount().getId());
         portfolioService.updatePortfolioById(investment.getPortfolio().getId());
@@ -55,7 +55,7 @@ public class InvestmentService {
     }
 
     @SneakyThrows
-    public Investment findInvestmentById(Long investmentId) {
+    public Investment findInvestmentById(final Long investmentId) {
         final Optional<Investment> optionalInvestment = investmentRepository.findById(investmentId);
         if (optionalInvestment.isPresent()) {
             return optionalInvestment.get();

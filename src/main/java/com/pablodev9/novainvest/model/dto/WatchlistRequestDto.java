@@ -11,5 +11,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class WatchlistRequestDto {
     private final Long portfolioId;
+    private final String name;
     private final List<Long> assetIds;
 }

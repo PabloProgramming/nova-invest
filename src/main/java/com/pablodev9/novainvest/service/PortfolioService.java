@@ -56,7 +56,7 @@ public class PortfolioService {
     }
 
     @Transactional
-    public void updatePortfolioById(Long portfolioId) {
+    public void updatePortfolioById(final Long portfolioId) {
         Portfolio portfolio = findPortfolioById(portfolioId);
         BigDecimal totalValue = portfolioFinancialOperationService.calculatePortfolioValue(portfolio);
         portfolio.setTotalValue(totalValue);
@@ -64,7 +64,7 @@ public class PortfolioService {
     }
 
     @SneakyThrows
-    public Portfolio findPortfolioById(Long portfolioId) {
+    public Portfolio findPortfolioById(final Long portfolioId) {
         final Optional<Portfolio> optionalPortfolio = portfolioRepository.findById(portfolioId);
         if (optionalPortfolio.isPresent()) {
             return optionalPortfolio.get();

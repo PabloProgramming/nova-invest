@@ -28,6 +28,7 @@ public class TransactionMapper {
 
     public TransactionResponseDto entityToResponseDto(final Transaction transaction) {
         return TransactionResponseDto.builder()
+                .accountId(transaction.getAccount().getId())
                 .transactionId(transaction.getId())
                 .transactionType(transaction.getTransactionType())
                 .amount(transaction.getAmount())

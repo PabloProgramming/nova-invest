@@ -38,12 +38,12 @@ public class AccountService {
         accountRepository.save(account);
     }
 
-    public void deleteAccount(Long userId) {
+    public void deleteAccount(final Long userId) {
         final Account account = accountRepository.getAccountByUserId(userId);
         accountRepository.delete(account);
     }
 
-    public void save(Account account) {
+    public void save(final Account account) {
         accountRepository.save(account);
     }
 
@@ -54,7 +54,7 @@ public class AccountService {
     }
 
     @Transactional
-    public void updateAccountById(Long accountId) {
+    public void updateAccountById(final Long accountId) {
         Account account = findAccountById(accountId);
         BigDecimal newBalance = accountFinancialOperationService.calculateBalance(account);
         BigDecimal newEquity = accountFinancialOperationService.calculateEquity(account);
@@ -91,14 +91,14 @@ public class AccountService {
     }
 
     @SneakyThrows
-    private void withdrawal(Account account, BigDecimal amount) {
+    private void withdrawal(Account account, final BigDecimal amount) {
         if (account.getBalance().compareTo(amount) < 0) {
             throw new InsufficientBalanceException(account.getBalance());
         }
         account.setBalance(account.getBalance().subtract(amount));
     }
 
-    private void deposit(Account account, BigDecimal amount) {
+    private void deposit(Account account, final BigDecimal amount) {
         account.setBalance(account.getBalance().add(amount));
     }
 }
