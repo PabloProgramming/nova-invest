@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @Getter
 @RequiredArgsConstructor
 public class TransactionResponseDto {
+    private final Long accountId;
     private final Long transactionId;
     private final TransactionType transactionType;
     private final BigDecimal amount;

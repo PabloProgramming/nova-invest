@@ -4,14 +4,16 @@ import com.pablodev9.novainvest.exceptionsHandler.exceptions.notFoundExceptions.
 import com.pablodev9.novainvest.exceptionsHandler.exceptions.notFoundExceptions.WatchlistNotFoundException;
 import com.pablodev9.novainvest.model.Asset;
 import com.pablodev9.novainvest.model.Watchlist;
-import com.pablodev9.novainvest.model.dto.WatchlistDto;
 import com.pablodev9.novainvest.model.dto.WatchlistRequestDto;
 import com.pablodev9.novainvest.model.dto.WatchlistResponseDto;
 import com.pablodev9.novainvest.repository.WatchlistRepository;
 import com.pablodev9.novainvest.service.mapper.WatchlistMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -25,32 +27,42 @@ public class WatchlistService {
 
     private final AssetService assetService;
 
-    public WatchlistDto createWatchlist(final WatchlistDto watchlistDto) {
+    public WatchlistResponseDto createWatchlist(final WatchlistRequestDto watchlistRequestDto) {
 
         Watchlist watchlist = new Watchlist();
-        watchlist.setPortfolio(portfolioService.findPortfolioById(watchlistDto.getPortfolioId()));
-        watchlist.setName(watchlistDto.getName());
+        watchlist.setPortfolio(portfolioService.findPortfolioById(watchlistRequestDto.getPortfolioId()));
+        watchlist.setName(watchlistRequestDto.getName());
+        watchlist.setAssets(assetService.findAssetsById(watchlistRequestDto.getAssetIds()));
         final Watchlist savedWatchlist = watchlistRepository.save(watchlist);
-        return watchlistMapper.watchlistToDto(savedWatchlist);
+        return watchlistMapper.toResponseDto(savedWatchlist);
     }
 
     public WatchlistResponseDto addAssetsToWatchlist(final WatchlistRequestDto watchlistRequestDto) {
         Watchlist watchlist = new Watchlist();
         watchlist.setPortfolio(portfolioService.findPortfolioById(watchlistRequestDto.getPortfolioId()));
-        watchlist.setAssets(assetService.findAssetById(watchlistRequestDto.getAssetIds()));
+        watchlist.setAssets(assetService.findAssetsById(watchlistRequestDto.getAssetIds()));
         final Watchlist updatedWatchlist = watchlistRepository.save(watchlist);
         return watchlistMapper.toResponseDto(updatedWatchlist);
     }
 
     @Transactional
+    @SneakyThrows
     public Long removeAssetFromWatchlist(final Long watchlistId, final Long assetId) {
-        Watchlist watchlist = watchlistRepository.findById(watchlistId)
-                .orElseThrow(() -> new WatchlistNotFoundException(watchlistId));
+        final Watchlist watchlist = findWatchlistById(watchlistId);
         final Asset asset = assetService.findAssetById(assetId);
         if (!watchlist.getAssets().contains(asset)) {
-            throw new AssetNotFoundException(assetId); // If asset isn't in watchlist, throw an exception.
+            throw new AssetNotFoundException(assetId);
         }
         return assetId;
+    }
+
+    @SneakyThrows
+    public Watchlist findWatchlistById(final Long watchlistId) {
+        final Optional<Watchlist> optionalWatchlist = watchlistRepository.findById(watchlistId);
+        if (optionalWatchlist.isPresent()) {
+            return optionalWatchlist.get();
+        }
+        throw new WatchlistNotFoundException(watchlistId);
     }
 
 }
