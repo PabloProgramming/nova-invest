@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class ApiExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler({UserNotFoundException.class, AccountNotFoundException.class,
-            PortfolioNotFoundException.class, AssetNotFoundException.class, InvestmentNotFoundException.class, WatchlistNotFoundException.class})
+            PortfolioNotFoundException.class, AssetNotFoundException.class,
+            InvestmentNotFoundException.class, WatchlistNotFoundException.class, StockNotFoundException.class})
     @ResponseBody
     public ErrorMessage notFoundRequest(HttpServletRequest request, Exception exception) {
         return new ErrorMessage(exception, request.getRequestURI());
