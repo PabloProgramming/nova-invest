@@ -45,10 +45,10 @@ public class AccountFinancialOperationService {
     public BigDecimal calculateReservedFunds(Account account) {
         return account.getPortfolios().stream()
                 .filter(Objects::nonNull)
-                .flatMap(portfolio -> portfolio.getOrders().stream()) // Flatten the orders into a single stream
-                .filter(order -> order.getOrderStatus().equals(OrderStatus.PENDING)) // Only pending orders
-                .map(order -> order.getPrice().multiply(order.getQuantity())) // Calculate reserved funds for each order
-                .reduce(BigDecimal.ZERO, BigDecimal::add); // Sum all reserved funds, starting from BigDecimal.ZERO
+                .flatMap(portfolio -> portfolio.getOrders().stream())
+                .filter(order -> order.getOrderStatus().equals(OrderStatus.PENDING))
+                .map(order -> order.getPrice().multiply(order.getQuantity()))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
 }

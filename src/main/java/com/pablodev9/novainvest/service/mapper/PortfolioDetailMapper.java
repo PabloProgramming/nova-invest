@@ -14,7 +14,7 @@ public class PortfolioDetailMapper {
 
     private final InvestmentSummaryMapper investmentSummaryMapper;
 
-    private final OrderMapper orderMapper;
+    private final OrderSummaryMapper orderSummaryMapper;
 
     private final PortfolioFinancialOperationService portfolioFinancialOperationService;
 
@@ -27,7 +27,7 @@ public class PortfolioDetailMapper {
                 .updateAt(portfolio.getUpdatedAt().toString())
                 .watchlistResponseDtos(watchlistMapper.toSummaryDtos(portfolio.getWatchlists()))
                 .investmentSummaryDtos(investmentSummaryMapper.toSummaryDtos(portfolio.getInvestments()))
-                .orderResponseDtos(orderMapper.toSummaryDtos(portfolio.getOrders()))
+                .orderResponseDtos(orderSummaryMapper.toSummaryDtos(portfolio.getOrders()))
                 .build();
     }
 
