@@ -56,6 +56,12 @@ public class WatchlistService {
         return assetId;
     }
 
+    public Long deleteWatchlist(final Long watchlistId) {
+        final Watchlist watchlist = findWatchlistById(watchlistId);
+        watchlistRepository.delete(watchlist);
+        return watchlistId;
+    }
+
     @SneakyThrows
     public Watchlist findWatchlistById(final Long watchlistId) {
         final Optional<Watchlist> optionalWatchlist = watchlistRepository.findById(watchlistId);
@@ -64,5 +70,7 @@ public class WatchlistService {
         }
         throw new WatchlistNotFoundException(watchlistId);
     }
+
+
 
 }

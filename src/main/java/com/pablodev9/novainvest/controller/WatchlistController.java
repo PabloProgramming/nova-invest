@@ -29,4 +29,9 @@ public class WatchlistController {
     private ResponseEntity<Long> removeAssetFromWatchlist(@PathVariable final Long watchlistId, @PathVariable final Long assetId) {
         return ResponseEntity.ok(watchlistService.removeAssetFromWatchlist(watchlistId, assetId));
     }
+
+    @DeleteMapping("/{watchlistId}")
+    private ResponseEntity<Long> deleteWatchlist(@PathVariable final Long watchlistId) {
+        return ResponseEntity.ok(watchlistService.deleteWatchlist(watchlistId));
+    }
 }
