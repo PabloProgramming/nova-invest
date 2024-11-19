@@ -1,5 +1,6 @@
 package com.pablodev9.novainvest.model.dto;
 
+import com.pablodev9.novainvest.model.enums.OrderStatus;
 import com.pablodev9.novainvest.model.enums.OrderType;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,11 +11,11 @@ import java.math.BigDecimal;
 @Builder
 @Getter
 @RequiredArgsConstructor
-public class OrderDto {
-    private final Long portfolioId;
-    private final Long assetId;
-    private final BigDecimal quantity;
+public class OrderSummaryDto {
+    private final Long orderId;
+    private final String assetName;
+    private final BigDecimal amountInvested;
+    private final BigDecimal profitOrLoss;
+    private final OrderStatus orderStatus;
     private final OrderType orderType;
-    private final BigDecimal takeProfit;
-    private final BigDecimal stopLoss;
 }

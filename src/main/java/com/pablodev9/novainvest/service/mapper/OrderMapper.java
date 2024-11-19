@@ -2,30 +2,46 @@ package com.pablodev9.novainvest.service.mapper;
 
 import com.pablodev9.novainvest.model.Order;
 import com.pablodev9.novainvest.model.dto.OrderDto;
-import com.pablodev9.novainvest.service.OrderService;
+import com.pablodev9.novainvest.model.dto.OrderResponseDto;
+import com.pablodev9.novainvest.service.OrderFinancialOperationService;
+import com.pablodev9.novainvest.service.PortfolioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
 public class OrderMapper {
 
-    private final OrderService orderService;
+    private final OrderFinancialOperationService orderFinancialOperationService;
 
-    public List<OrderDto> toSummaryDtos(List<Order> orders) {
-        return orders.stream()
-                .map(order -> OrderDto.builder()
-                        .orderId(order.getId())
-                        .assetName(order.getAsset().getName())
-                        .amountInvested(orderService.calculateAmountInvested(order))
-                        .orderStatus(order.getOrderStatus())
-                        .orderType(order.getOrderType())
-                        .profitOrLoss(orderService.calculateProfitOrLoss(order))
-                        .build())
-                .collect(Collectors.toList());
+    private final PortfolioService portfolioService;
+
+    public Order dtoToOrder(final OrderDto orderDto) {
+        Order order = new Order();
+        order.setPortfolio(portfolioService.findPortfolioById(orderDto.getPortfolioId()));
+        order.setOrderType(orderDto.getOrderType());
+        order.setQuantity(orderDto.getQuantity());
+        order.setTakeProfit(orderDto.getTakeProfit());
+        order.setStopLoss(orderDto.getStopLoss());
+        return order;
     }
 
+    public OrderResponseDto orderToDto(final Order order) {
+        return OrderResponseDto.builder()
+                .portfolioId(order.getPortfolio().getId())
+                .orderId(order.getId())
+                .orderType(order.getOrderType())
+                .assetId(order.getAsset().getId())
+                .assetName(order.getAsset().getName())
+                .quantity(order.getQuantity())
+                .takeProfit(order.getTakeProfit())
+                .stopLoss(order.getStopLoss())
+                .transactionFees(order.getTransactionFees())
+                .purchasePrice(order.getPurchasePrice())
+                .currentValue(orderFinancialOperationService.calculateCurrentValue(order))
+                .profitOrLoss(orderFinancialOperationService.calculateProfitOrLoss(order))
+                .createdAt(order.getCreatedAt())
+                .amountInvested(orderFinancialOperationService.calculateAmountInvested(order))
+                .build();
+    }
 }
