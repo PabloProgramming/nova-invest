@@ -24,4 +24,9 @@ public class InvestmentController {
     private ResponseEntity<InvestmentResponseDto> getInvestmentDetails(@PathVariable final Long investmentId) {
         return ResponseEntity.ok(investmentService.getInvestmentDetails(investmentId));
     }
+
+    @PatchMapping("{investmentId}/closed/")
+    private ResponseEntity<Long> closeInvestment(@PathVariable final Long investmentId) {
+        return ResponseEntity.ok(investmentService.closeInvestment(investmentId));
+    }
 }
