@@ -12,6 +12,7 @@ import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -53,6 +54,16 @@ public class InvestmentService {
         portfolioService.updatePortfolioById(investment.getPortfolio().getId());
         return investmentMapper.investmentToDto(investment);
     }
+
+    public Long closeInvestment(final Long investmentId) {
+        final Investment investment = findInvestmentById(investmentId);
+        accountService.updateAccountById(investment.getPortfolio().getAccount().getId());
+        investment.setClosed(true);
+        investment.setClosedAt(LocalDateTime.now());
+        investmentRepository.save(investment);
+        return investment.getId();
+    }
+
 
     @SneakyThrows
     public Investment findInvestmentById(final Long investmentId) {
