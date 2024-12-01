@@ -22,7 +22,7 @@ public class Investment {
     private BigDecimal currentPrice;
     private BigDecimal transactionFees;
     private BigDecimal amountInvested;
-    private boolean closed;
+   // private boolean closed;
     private LocalDateTime createdAt;
     private LocalDateTime closedAt;
     private LocalDateTime updatedAt;

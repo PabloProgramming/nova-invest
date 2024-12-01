@@ -1,4 +1,4 @@
-package com.pablodev9.novainvest.config;
+package com.pablodev9.novainvest.service.yahoofinance;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -7,7 +7,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.web.client.RestTemplate;
 
 @Configuration
-public class RestTemplateConfig {
+public class CommonHeadersYahooFinance {
 
     @Value("${yahoo.api.key}")
     private String apiKey;

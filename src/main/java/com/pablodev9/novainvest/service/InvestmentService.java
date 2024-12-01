@@ -58,7 +58,7 @@ public class InvestmentService {
     public Long closeInvestment(final Long investmentId) {
         final Investment investment = findInvestmentById(investmentId);
         accountService.updateAccountById(investment.getPortfolio().getAccount().getId());
-        investment.setClosed(true);
+       // investment.setClosed(true);
         investment.setClosedAt(LocalDateTime.now());
         investmentRepository.save(investment);
         return investment.getId();
