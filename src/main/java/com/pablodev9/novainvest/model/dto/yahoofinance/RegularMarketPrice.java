@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RegularMarketOpen {
+public class RegularMarketPrice {
     private double raw;
     private String fmt;
 }

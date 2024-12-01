@@ -8,5 +8,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Price {
-    private RegularMarketOpen regularMarketOpen;
+    private RegularMarketPrice regularMarketPrice;
 }
