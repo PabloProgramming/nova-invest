@@ -10,8 +10,8 @@ public class YahooFinanceService {
 
     private final GetRealTimeDataCall getRealTimeDataCall;
 
-    public double getRealTimeData(final String symbol, final String region) {
-        return getRealTimeDataCall.getStockData(symbol, region).getQuoteSummary().getResult().get(0).getPrice().getRegularMarketPrice().getRaw();
+    public double getAssetData(final String symbol, final String region) {
+        return getRealTimeDataCall.getAssetPrice(symbol, region).getQuoteSummary().getResult().get(0).getPrice().getRegularMarketPrice().getRaw();
     }
 
 }

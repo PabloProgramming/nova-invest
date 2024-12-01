@@ -28,7 +28,7 @@ public class AssetService {
     }
 
     public double getAssetBySymbol(final String symbol, final String region) {
-        return yahooFinanceService.getRealTimeData(symbol, region);
+        return yahooFinanceService.getAssetData(symbol, region);
     }
 
     public List<Asset> findAssetsById(final List<Long> assetIds) {

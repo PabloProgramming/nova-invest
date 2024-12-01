@@ -24,7 +24,7 @@ public class GetRealTimeDataCall {
     private final CommonHeadersYahooFinance commonHeadersYahooFinance;
     private final org.springframework.web.client.RestTemplate restTemplate;
 
-    public YahooFinanceResponseDto getStockData(final String symbol, final String region) {
+    public YahooFinanceResponseDto getAssetPrice(final String symbol, final String region) {
 
         String url = baseUrl + getStockGetPriceUrl + "?region=" + region + "&symbol=" + symbol;
 
