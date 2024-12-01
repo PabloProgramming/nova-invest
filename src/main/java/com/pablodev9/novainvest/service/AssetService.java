@@ -2,7 +2,6 @@ package com.pablodev9.novainvest.service;
 
 import com.pablodev9.novainvest.exceptionsHandler.exceptions.notFoundExceptions.AssetNotFoundException;
 import com.pablodev9.novainvest.model.Asset;
-import com.pablodev9.novainvest.model.dto.yahoofinance.QuoteSummary;
 import com.pablodev9.novainvest.repository.AssetRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -28,7 +27,7 @@ public class AssetService {
         throw new AssetNotFoundException(assetId);
     }
 
-    public QuoteSummary getAssetBySymbol(final String symbol, final String region) {
+    public double getAssetBySymbol(final String symbol, final String region) {
         return yahooFinanceService.getRealTimeData(symbol, region);
     }
 

@@ -1,7 +1,6 @@
 package com.pablodev9.novainvest.service.yahoofinance;
 
 import com.pablodev9.novainvest.exceptionsHandler.exceptions.notFoundExceptions.StockNotFoundException;
-import com.pablodev9.novainvest.model.dto.yahoofinance.QuoteSummary;
 import com.pablodev9.novainvest.model.dto.yahoofinance.YahooFinanceResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,19 +24,20 @@ public class GetRealTimeDataCall {
     private final CommonHeadersYahooFinance commonHeadersYahooFinance;
     private final org.springframework.web.client.RestTemplate restTemplate;
 
-    public QuoteSummary getStockData(final String symbol, final String region) {
+    public YahooFinanceResponseDto getStockData(final String symbol, final String region) {
 
         String url = baseUrl + getStockGetPriceUrl + "?region=" + region + "&symbol=" + symbol;
 
         HttpHeaders headers = commonHeadersYahooFinance.createHeaders();
-        HttpEntity<HttpHeaders> requestEntity = new HttpEntity<>(headers);
+        HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
 
         ResponseEntity<YahooFinanceResponseDto> response = restTemplate.exchange(
                 url, HttpMethod.GET, requestEntity, YahooFinanceResponseDto.class);
 
-        if (response.getBody() == null) {
+        YahooFinanceResponseDto responseDto = response.getBody();
+        if (responseDto == null) {
             throw new StockNotFoundException(symbol);
         }
-        return response.getBody().getQuoteSummary();
+        return responseDto;
     }
 }
