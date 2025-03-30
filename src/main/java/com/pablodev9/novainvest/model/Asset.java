@@ -17,8 +17,11 @@ public class Asset {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Column(unique = true)
+    private String symbol;
     private String name;
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private AssetType assetType;
     private BigDecimal currentPrice;
     private Boolean marketOpen;

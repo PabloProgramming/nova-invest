@@ -5,7 +5,8 @@ import lombok.Getter;
 @Getter
 public enum AssetType {
     STOCK,
+    ETF,
+    CRYPTO,
     COMMODITY,
-    INDEX,
-    ETF
+    INDEX
 }

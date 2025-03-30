@@ -7,6 +7,7 @@ import com.pablodev9.novainvest.model.dto.InvestmentDto;
 import com.pablodev9.novainvest.model.dto.InvestmentResponseDto;
 import com.pablodev9.novainvest.repository.InvestmentRepository;
 import com.pablodev9.novainvest.service.mapper.InvestmentMapper;
+import com.pablodev9.novainvest.service.yahoofinance.GetRealTimeDataCall;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,8 @@ public class InvestmentService {
     private final AccountService accountService;
 
     private final PortfolioService portfolioService;
+
+    private final GetRealTimeDataCall getRealTimeDataCall;
 
     public InvestmentResponseDto addInvestmentToPortfolio(final InvestmentDto investmentDto) {
         final Asset asset = assetService.findAssetById(investmentDto.getAssetId());
